@@ -44,7 +44,7 @@ export async function POST(req: Request) {
 
             try {
                 await resend.emails.send({
-                    from: 'onbording@nilanjan.tech',
+                    from: 'onboarding@resend.dev',
                     to: email,
                     subject: 'Email Verification',
                     text: `Hi ${username}`,
