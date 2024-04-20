@@ -43,7 +43,7 @@ export async function POST(req: Request) {
             const resend = new Resend(process.env.RESEND_API_KEY);
 
             try {
-                await resend.emails.send({
+                const isEmailSent = await resend.emails.send({
                     from: 'onboarding@resend.dev',
                     to: email,
                     subject: 'Email Verification',
@@ -51,10 +51,15 @@ export async function POST(req: Request) {
                     react: VerifyEmailTemplate({ username, verifyCode })
                 });
 
+                if (!isEmailSent) {
+                    return NextResponse.json({error: "Failed to send verification email."}, { status: 500 });
+                }
+
                 return NextResponse.json("Email sent successfully.");
+
             } catch (error) {
                 console.log(error)
-                return NextResponse.json({ error: "Faild to send verification email." }, { status: 500 });
+                return NextResponse.json(error);
             }
         }
 
