@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  email      String   @unique
+  username   String?
+  password   String
+  isVerified Boolean  @default(false)
+  verifyCode Int?
+  verifyCodeExpiry DateTime
+  isAcceptingMesseges Boolean @default(true)
+  messeges   Messege[]
+
+  createdAt DateTime @default(now())
+}
+
+model Messege {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  text       String
+  recipentId String  @db.ObjectId
+  createdAt  DateTime @default(now())
+
+  recipent   User   @relation(fields: [recipentId], references: [id])
+}
