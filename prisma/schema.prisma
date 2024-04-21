@@ -17,7 +17,7 @@ model User {
   emailVerified       DateTime?
   isVerified          Boolean   @default(false)
   verifyCode          Int?
-  verifyCodeExpiry    DateTime
+  verifyCodeExpiry    DateTime  @default(now())
   isAcceptingMesseges Boolean   @default(true)
   messeges            Messege[]
   createdAt           DateTime  @default(now())
