@@ -62,7 +62,7 @@ const LoginPage = () => {
         router.push('/');
       }
     })
-  }, [router])
+  }, [])
 
 
   return (
