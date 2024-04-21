@@ -25,7 +25,7 @@ const CopyLinkCard = () => {
 
     return (
         <div className="flex flex-col items-center justify-center gap-4">
-            <h2 className="text-xl font-semibold text-zinc-500">Click the button to copy the link</h2>
+            <h2 className="text-md font-semibold text-zinc-500">Click the button to copy the link</h2>
             <button
                 onClick={pasteToClipbord}
                 className="border border-zinc-700 hover:bg-zinc-800 px-3 py-1 rounded-xl"

@@ -2,30 +2,47 @@
 
 import { Messege } from "@prisma/client";
 import axios from "axios";
-import { getSession } from "next-auth/react";
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import MsgCard from "./MsgCard";
 import ClipLoader from "react-spinners/ClipLoader";
+import { TbReload } from "react-icons/tb";
 
-const MsgContainer = () => {
+const MsgContainer = ({refresh}: {refresh: boolean}) => {
   const [isLoading, setLoading] = useState(true)
   const [messeges, setMesseges] = useState<[Messege] | []>([]);
 
-  useEffect(() => {
-    setLoading(true)
 
-    axios.get('/api/messeges')
+  const getMesseges = useCallback(async () => {
+    setLoading(true)
+    console.log("Use callback ran.")
+
+    await axios.get('/api/messeges')
       .then((res) => {
         setMesseges(res.data)
       })
       .catch((err) => console.log(err))
       .finally(() => setLoading(false))
 
-  }, [])
+  }, [setLoading, setMesseges]);
+
+
+  useEffect(() => {
+    // setLoading(true)
+
+    // axios.get('/api/messeges')
+    //   .then((res) => {
+    //     setMesseges(res.data)
+    //   })
+    //   .catch((err) => console.log(err))
+    //   .finally(() => setLoading(false))
+    console.log("Use effect ran.")
+    getMesseges()
+
+  }, [refresh, getMesseges])
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center">
+      <div className="flex mt-12 items-center justify-center">
         <ClipLoader
           color='#ffffff'
           size={50}
@@ -37,11 +54,11 @@ const MsgContainer = () => {
 
 
   return (
-    <div className="flex flex-col gap-4 p-8">
+    <div className="flex flex-col gap-4 sm:grid grid-cols-2 md:grid-cols-3 pb-6">
       {isLoading && messeges.length === 0 ? (
-        <h4>You dont have messeges yet!</h4>
+          <h4>You dont have messeges yet!</h4>
       ) : messeges.map((msg) => (
-        <MsgCard key={msg.id} text={msg.text} time={msg.createdAt}/>
+        <MsgCard key={msg.id} text={msg.text} time={msg.createdAt} />
       ))}
     </div>
   )

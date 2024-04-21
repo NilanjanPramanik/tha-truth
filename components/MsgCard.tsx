@@ -25,7 +25,7 @@ const MsgCard = ({ text, time }: { text: string, time: Date }) => {
 
 
   return (
-    <div className="border p-4 rounded bg-zinc-900 border-zinc-700 flex justify-between flex-col">
+    <div className="border pt-3 px-3 rounded bg-zinc-900 border-zinc-700 flex justify-between flex-col w-[310px]">
       <p>
         {text}
       </p>
