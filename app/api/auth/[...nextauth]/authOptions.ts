@@ -1,15 +1,22 @@
-import prisma from "@/lib/db";
 import db from '@/lib/db';
+import prisma from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from 'next-auth/providers/google'
 
+// const prisma = new PrismaClient()
 
 export const authOptions: NextAuthOptions = ({
     // @ts-ignore
     adapter: PrismaAdapter(prisma),
     providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+          }),
+
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
@@ -33,6 +40,10 @@ export const authOptions: NextAuthOptions = ({
 
                     if (!user.isVerified) {
                         throw new Error("User is not verified. Verify your email first.")
+                    }
+
+                    if (!user.password) {
+                        throw new Error("No password.")
                     }
 
                     const comparePassword = await bcrypt.compare(credentials?.password!, user.password)
@@ -74,9 +85,13 @@ export const authOptions: NextAuthOptions = ({
     pages: {
         signIn: '/login'
     },
+
+    debug: process.env.NODE_ENV === 'development',
+
     session: {
         strategy: 'jwt',
     },
+
     secret: process.env.NEXTAUTH_SECRET
 
 })

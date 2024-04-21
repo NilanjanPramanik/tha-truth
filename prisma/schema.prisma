@@ -8,24 +8,60 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  email      String   @unique
-  username   String?
-  password   String
-  isVerified Boolean  @default(false)
-  verifyCode Int?
-  verifyCodeExpiry DateTime
-  isAcceptingMesseges Boolean @default(true)
-  messeges   Messege[]
-
-  createdAt DateTime @default(now())
+  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
+  email               String    @unique
+  name                String?
+  username            String?
+  image               String?
+  password            String?
+  emailVerified       DateTime?
+  isVerified          Boolean   @default(false)
+  verifyCode          Int?
+  verifyCodeExpiry    DateTime?
+  isAcceptingMesseges Boolean   @default(true)
+  messeges            Messege[]
+  createdAt           DateTime  @default(now())
+  accounts            Account[]
 }
 
+// model User {
+//   id         String   @id @default(auto()) @map("_id") @db.ObjectId
+//   email      String   @unique
+//   username   String?
+//   password   String
+//   isVerified Boolean  @default(false)
+//   verifyCode Int?
+//   verifyCodeExpiry DateTime
+//   isAcceptingMesseges Boolean @default(true)
+//   messeges   Messege[]
+
+//   createdAt DateTime @default(now())
+// }
+
 model Messege {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   text       String
-  recipentId String  @db.ObjectId
+  recipentId String   @db.ObjectId
   createdAt  DateTime @default(now())
 
-  recipent   User   @relation(fields: [recipentId], references: [id])
+  recipent User @relation(fields: [recipentId], references: [id])
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }

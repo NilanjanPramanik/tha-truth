@@ -6,7 +6,7 @@ import { authOptions } from "../auth/[...nextauth]/authOptions";
 export async function GET(req: Request) {
     const session = await getServerSession(authOptions);
 
-    console.log(session)
+    // console.log(session)
     
     if (!session?.user._id) {
         return NextResponse.json({error: "User not logged in"}, { status: 401 })
