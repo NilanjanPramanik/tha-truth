@@ -9,7 +9,7 @@ const OAuthCard = () => {
             <div className="flex gap-4 justify-evenly w-full">
                 <button
                     onClick={() => signIn('google', {
-                        callbackUrl: '/'
+                        // callbackUrl: '/'
                     })}
                     className="border border-zinc-700 rounded  px-3 py-1 bg-zinc-800 text-zinc-400 w-[45%] hover:bg-zinc-900"
                 >

@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
-import { getSession, signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 
 import { LoginUser } from '@/schemas/userSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,8 +22,10 @@ import { Input } from '@/components/ui/input';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toast';
 import OAuthCard from '@/components/OAuthCard';
+import MoonLoader from 'react-spinners/MoonLoader';
 
 const LoginPage = () => {
+  const { data: session } = useSession();
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false);
 
@@ -56,13 +58,23 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
-    const session = getSession();
-    session.then((res) => {
-      if (res?.user.email) {
-        router.push('/');
-      }
-    })
-  }, [])
+    if (session?.user) {
+      router.push('/');
+    }
+  }, [session?.user])
+
+
+  if (session?.user) {
+    return (
+      <div className='flex h-screen items-center justify-center'>
+        <MoonLoader
+          color='#ffffff'
+          size={50}
+          speedMultiplier={1.5}
+        />
+      </div>
+    )
+  }
 
 
   return (

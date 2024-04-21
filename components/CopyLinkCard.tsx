@@ -9,7 +9,7 @@ const CopyLinkCard = () => {
     const userId = useRef<string | undefined>();
     
     const pasteToClipbord = () => {
-        const url = `${BASE_URL}/send?to=${userId.current}`
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/send?to=${userId.current}`
         navigator.clipboard.writeText(url)
         toast.success("Link coppied")
     }
@@ -25,11 +25,11 @@ const CopyLinkCard = () => {
 
     return (
         <div className="flex flex-col items-center justify-center gap-4">
-            <h2 className="text-xl font-semibold text-zinc-500">Start getting messeges...</h2>
+            <h2 className="text-xl font-semibold text-zinc-500">Click the button to copy the link</h2>
             <button
                 onClick={pasteToClipbord}
                 className="border border-zinc-700 hover:bg-zinc-800 px-3 py-1 rounded-xl"
-            >Click</button>
+            >Copy</button>
         </div>
     )
 }

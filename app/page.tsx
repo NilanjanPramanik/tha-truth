@@ -5,27 +5,44 @@ import Image from "next/image";
 import { getCurrentUser } from "../actions/getCurrentUser";
 import CopyLinkCard from "@/components/CopyLinkCard";
 import MsgContainer from "@/components/MsgContainer";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 
-export default async function Home() {
+export default function Home() {
   // const session = await getCurrentUser();
   const {data: session} = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!session?.user._id) {
-      router.push('/login');
+  const handleRedirect = useCallback(() => {
+    console.log("ROuter run")
+    if(!session?.user) {
+      router.push('/login')
     }
-  } , [session?.user._id])
+  }, [session?.user]) 
+
+  useEffect(() => {
+    handleRedirect()
+
+  }, []);
+
+  useCallback(() => {
+    if (!session?.user) {
+      return (
+        <p>You are not logged in.</p>
+      )
+    }
+  }, [session?.user]);
   
   return (
     <main>
       <ThemeModeToggle />
       <CopyLinkCard />
-      <MsgContainer />
+      { session?.user && (
+        <MsgContainer />
+      )
+      }
     </main>
   );
 }
