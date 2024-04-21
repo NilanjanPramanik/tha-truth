@@ -9,7 +9,7 @@ const CopyLinkCard = () => {
     const userId = useRef<string | undefined>();
     
     const pasteToClipbord = () => {
-        const url = `${process.env.NEXT_PUBLIC_API_URL}/send?to=${userId.current}`
+        const url = `https://${process.env.NEXT_PUBLIC_API_URL}/send?to=${userId.current}`
         navigator.clipboard.writeText(url)
         toast.success("Link coppied")
     }
