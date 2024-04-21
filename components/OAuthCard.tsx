@@ -8,7 +8,9 @@ const OAuthCard = () => {
             <h3 className="text-zinc-500"> Or continue with</h3>
             <div className="flex gap-4 justify-evenly w-full">
                 <button
-                    onClick={() => signIn('google')}
+                    onClick={() => signIn('google', {
+                        callbackUrl: '/'
+                    })}
                     className="border border-zinc-700 rounded  px-3 py-1 bg-zinc-800 text-zinc-400 w-[45%] hover:bg-zinc-900"
                 >
                     Google
