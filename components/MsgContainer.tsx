@@ -27,14 +27,6 @@ const MsgContainer = ({refresh}: {refresh: boolean}) => {
 
 
   useEffect(() => {
-    // setLoading(true)
-
-    // axios.get('/api/messeges')
-    //   .then((res) => {
-    //     setMesseges(res.data)
-    //   })
-    //   .catch((err) => console.log(err))
-    //   .finally(() => setLoading(false))
     console.log("Use effect ran.")
     getMesseges()
 
@@ -54,7 +46,7 @@ const MsgContainer = ({refresh}: {refresh: boolean}) => {
 
 
   return (
-    <div className="flex flex-col gap-4 sm:grid grid-cols-2 md:grid-cols-3 pb-6">
+    <div className="flex flex-col gap-4 sm:grid grid-cols-2 lg:grid-cols-3 pb-6">
       {isLoading && messeges.length === 0 ? (
           <h4>You dont have messeges yet!</h4>
       ) : messeges.map((msg) => (

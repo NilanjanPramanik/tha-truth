@@ -4,14 +4,19 @@ import { BASE_URL } from "@/constant"
 import { getSession } from "next-auth/react"
 import { useEffect, useRef } from "react"
 import { toast } from "react-toast"
+import { useToast } from "./ui/use-toast"
 
 const CopyLinkCard = () => {
+    const { toast } = useToast()
     const userId = useRef<string | undefined>();
     
     const pasteToClipbord = () => {
         const url = `https://${process.env.NEXT_PUBLIC_API_URL}/send?to=${userId.current}`
         navigator.clipboard.writeText(url)
-        toast.success("Link coppied")
+        toast({
+            description: "Link copied to clipboard",
+            style: {backgroundColor: 'black', borderRadius: '10px'}
+        });
     }
     
     useEffect(() => {

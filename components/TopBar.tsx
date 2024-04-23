@@ -10,7 +10,7 @@ const TopBar = () => {
     const router = useRouter();
 
     return (
-        <div className="bg-zinc-800 flex items-center justify-between px-8 h-[70px] z-10">
+        <div className="bg-zinc-800 flex items-center justify-between px-8 h-[70px]">
             <h1
                 onClick={() => router.push('/')}
                 className="relative text-xl font-semibold text-orange-600 z-10"
