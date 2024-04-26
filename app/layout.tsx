@@ -22,18 +22,10 @@ export default async function RootLayout({
     <html lang="en">
       <body
         className={inter.className}
-      // style={{
-      //   backgroundColor: '#18181b', 
-      //   color: '#fff', 
-      //   fontFamily: 'Inter, sans-serif', 
-      //   margin: 0, 
-      //   padding: 0, 
-      //   boxSizing: 'border-box'
-      // }}
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
